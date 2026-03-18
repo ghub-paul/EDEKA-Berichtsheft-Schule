@@ -86,7 +86,7 @@
         <div id="main-screen" class="card">
             <h1 id="day-title">Tag</h1>
             <div id="subject-title" class="sub">Fach...</div>
-            <textarea id="entry-input" placeholder="Was wurde gemacht?"></textarea>
+            <textarea id="entry-input" placeholder="Was wurde heute gemacht?"></textarea>
             <button onclick="nextSubject()">Nächstes Fach (Enter)</button>
             <button class="btn-secondary" onclick="skipSubject()">Fach fällt aus</button>
             <button id="back-button" class="btn-back" onclick="goBack()">← Schritt zurück</button>
@@ -105,13 +105,12 @@
         </div>
     </div>
 
-    <div class="footer">Made by Paul Ziese | Edeka Azubi-Tool</div>
+    <div class="footer">Made by Paul Ziese</div>
 
 <script>
     let schedule = [];
     let currentIndex = 0;
-    let entries = []; // Speichert nur erfolgreiche Eingaben
-    let history = []; // Speichert den Pfad (Index & Ob Skip oder nicht)
+    let entries = [];
 
     window.onload = function() {
         const savedClass = localStorage.getItem('edeka_class');
@@ -164,8 +163,6 @@
             document.getElementById('subject-title').innerText = "Fach: " + schedule[currentIndex].f;
             document.getElementById('entry-input').value = "";
             document.getElementById('entry-input').focus();
-            
-            // Zurück-Button nur zeigen, wenn wir nicht am Anfang sind
             document.getElementById('back-button').style.display = (currentIndex > 0) ? "block" : "none";
         } else { showResult(); }
     }
@@ -189,7 +186,6 @@
     function goBack() {
         if (currentIndex > 0) {
             currentIndex--;
-            // Falls der letzte Index in den Entries gespeichert war, löschen wir ihn
             entries = entries.filter(e => e.index < currentIndex);
             renderSubject();
         }
@@ -219,7 +215,7 @@
         const text = document.getElementById(id).innerText;
         navigator.clipboard.writeText(text);
         if(id === 'ai-prompt') window.open('https://chatgpt.com', '_blank');
-        alert("In die Zwischenablage kopiert!");
+        alert("Kopiert!");
     }
 
     document.getElementById('entry-input').addEventListener('keydown', (e) => {
